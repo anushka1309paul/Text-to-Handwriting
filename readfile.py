@@ -10,39 +10,39 @@ from PIL import Image
 def readfile(filename):
     ext = os.path.splitext(filename)[-1].lower()
     if ext=='.txt':
-        f = open('D:/pakhi/Documents/Competitons/Projects/text to handwriting/static/uploads/'+filename, 'r')
+        f = open('static/uploads/'+filename, 'r')
         readcontent = f.read()
         text = text_to_handwriting(
-            readcontent, 'D:/pakhi/Documents/Competitons/Projects/text to handwriting/static/readcontent/test1.PNG', rgb=(20, 20, 20))
+            readcontent, 'static/readcontent/test1.PNG', rgb=(20, 20, 20))
     elif ext=='.docx':
         doc = docx.Document(
-            'D:/pakhi/Documents/Competitons/Projects/text to handwriting/static/uploads/'+filename)
+            'static/uploads/'+filename)
         doctext = []
         for singleline in doc.paragraphs:
             doctext.append(singleline.text)
         readcontent='\n'.join(doctext)
         text = text_to_handwriting(
-            readcontent, 'D:/pakhi/Documents/Competitons/Projects/text to handwriting/static/readcontent/test1.PNG', rgb=(20, 20, 20))
+            readcontent, 'static/readcontent/test1.PNG', rgb=(20, 20, 20))
     elif ext=='.pdf':
-        pdf = 'D:/pakhi/Documents/Competitons/Projects/text to handwriting/static/uploads/'+filename
+        pdf = 'static/uploads/'+filename
         pdfread = PyPDF2.PdfFileReader(pdf)
         page = pdfread.getPage(0)
         pagecontent = page.extractText()
         readcontent = ' '.join(pagecontent.split())
         text = text_to_handwriting(
-            readcontent, 'D:/pakhi/Documents/Competitons/Projects/text to handwriting/static/readcontent/test1.PNG', rgb=(20, 20, 20))
+            readcontent, 'static/readcontent/test1.PNG', rgb=(20, 20, 20))
     
     image = Image.open(
-        'D:/pakhi/Documents/Competitons/Projects/text to handwriting/static/readcontent/test1.PNG')
+        'static/readcontent/test1.PNG')
     im=image.convert('RGB')
-    im.save(r'D:/pakhi/Documents/Competitons/Projects/text to handwriting/static/readcontent/test1.pdf')
+    im.save(r'static/readcontent/test1.pdf')
 
     return 'test1.PNG'
 
 
 app = Flask(__name__)
 
-app.config['IMAGE_UPLOADS'] = 'D:/pakhi/Documents/Competitons/Projects/text to handwriting/static/uploads'
+app.config['IMAGE_UPLOADS'] = 'static/uploads'
 
 
 @app.route("/", methods=['POST', 'GET'])
